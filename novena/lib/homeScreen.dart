@@ -1,5 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:novena/NovenaPagexd.dart';
+import 'package:flutter/services.dart';
+import 'package:novena/NovenaSceen.dart';
+import 'package:novena/OracionesPage.dart';
+import 'package:novena/PrayersModel.dart';
+import 'package:novena/VillancicoScreen.dart';
 import 'package:novena/beforeNovena.dart';
 import 'package:novena/beforeNovenaPage.dart';
 
@@ -13,22 +19,23 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreen extends State<HomeScreen> {
  int dateDays =  0;
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
+  late List<PrayersModel> prayersForNovena = [];
+  double fontSize = 15;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   late Widget nextPage;
+Future<void> readJson() async {
+final String response = await rootBundle.loadString('assets/novena.json');
+final data = await json.decode(response);
+  var listPrayers = data['prayers'] as List;
+    var prayersNovena = listPrayers.map((tagJson) => PrayersModel.fromJson(tagJson)).toList();
+  var listdayPrayers = data['Daily'] as List;
+    var listdailyPrayers = listdayPrayers.map((tagJson) => PrayersModel.fromJson(tagJson)).toList();
+    prayersForNovena = prayersNovena + listdailyPrayers;
+}
 
-   List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-   beforeNovena(),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
-  ];
+   
 
   void _onItemTapped(int index) {
     setState(() {
@@ -42,36 +49,56 @@ class _HomeScreen extends State<HomeScreen> {
    return (to.difference(from).inHours / 24).round();
   }
 
-  void currentDateDays(){
+  Widget currentDateDays(){
   DateTime now = new DateTime.now();
-       final crhistmas = DateTime(now.year, 12,16);
+  final novenaDayStarts = DateTime(now.year, 12, 16);
+  final navidad = DateTime(now.year, 12, 24);
 
-   int numberdates = daysBetween(now, crhistmas);
-    print(numberdates<0);
-    print("<");
+
+   int numberdates = daysBetween(now, novenaDayStarts);
+
      if(numberdates >= 0 ){
-      _widgetOptions.removeAt(1);
-      _widgetOptions.insert(1,  BeforeNovenaScreen());
+      return BeforeNovenaScreen(numberdates);
     } else{
-            _widgetOptions.removeAt(1);
-      _widgetOptions.insert(1,  beforeNovena());
+      return beforeNovena();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-  currentDateDays();
+    readJson();
+    List<Widget> _widgetOptions = <Widget>[
+   NovenaScreen(prayersForNovena, fontSize - 15),
+   currentDateDays(),
+   VillancicoSceen()
+  ];
+  
     return Scaffold(
       appBar: AppBar( 
         backgroundColor: 
         Color.fromARGB(255, 23, 61, 88),
         title: const Text('Novena'),
-      ),
+      ), floatingActionButton:
+      FloatingActionButton( child: Text("Aa", style: TextStyle(fontSize: fontSize),),     
+        backgroundColor: Color.fromARGB(255, 23, 61, 88), 
+        onPressed: () {
+          if(fontSize == 15){
+            fontSize = 20;
+          }else if(fontSize == 20){
+            fontSize = 25;
+          }else if(fontSize == 25){
+            fontSize = 15;
+          }
+          setState(() {
+          });
+        },),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color.fromARGB(255, 23, 61, 88),
+        backgroundColor: Color.fromARGB(255, 23, 61, 88),  
+        selectedLabelStyle: TextStyle(fontSize: fontSize), 
+        unselectedLabelStyle: TextStyle(fontSize: fontSize),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: ImageIcon(
@@ -84,7 +111,7 @@ class _HomeScreen extends State<HomeScreen> {
             icon:ImageIcon(
             AssetImage("assets/NovenaIcon.png"),
              color: Color.fromARGB(255, 255, 255, 255),
-            ),
+            ), 
             label: 'Novena', 
           ),
           BottomNavigationBarItem(

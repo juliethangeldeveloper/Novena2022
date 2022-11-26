@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class BeforeNovenaScreen extends StatefulWidget {
-
-    const BeforeNovenaScreen({Key? key}) : super(key: key);
+ int days;
+   BeforeNovenaScreen(this.days,{Key? key}) : super(key: key);
   @override
   State<BeforeNovenaScreen> createState() => _BeforeNovenaScreenState();
 }
@@ -13,22 +13,8 @@ String  diasText = "dias";
 String  novenaText = "para la \nNovena de Aguinaldos";
  String dateDays = "0";
 
-   int daysBetween(DateTime from, DateTime to) {
-     from = DateTime(from.year, from.month, from.day);
-     to = DateTime(to.year, to.month, to.day);
-   return (to.difference(from).inHours / 24).round();
-  }
-
-  void currentDateDays(){
-  DateTime now = new DateTime.now();
-  final crhistmas = DateTime( now.year, 12,16);
-   int numberdates = daysBetween(now, crhistmas);
-   dateDays = numberdates.toString();
-  
-  }
   @override
   Widget build(BuildContext context) {
-    currentDateDays();
     return Stack(
       children: [
           const Image(image: 
@@ -40,11 +26,8 @@ String  novenaText = "para la \nNovena de Aguinaldos";
         height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width, alignment: Alignment.center,
           child: Row(  mainAxisAlignment: MainAxisAlignment.spaceAround,        
-            // height: MediaQuery.of(context).size.height, 
-            //   width:MediaQuery.of(context).size.width,
             children: [
               Column(mainAxisAlignment: MainAxisAlignment.center, 
-                // crossAxisAlignment: CrossAxisAlignment.center, 
               children: [
                 Row(children: [
                 Text(
@@ -59,7 +42,7 @@ String  novenaText = "para la \nNovena de Aguinaldos";
              Container(  
               padding: const EdgeInsets.all(15),
                 child: Text(
-                    dateDays,
+                    widget.days.toString(),
                       style: const TextStyle(
                         fontFamily: 'Apple Chancery',
                         fontSize: 55,
