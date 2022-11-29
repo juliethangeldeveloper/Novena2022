@@ -1,9 +1,5 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:novena/PrayersModel.dart';
-import 'package:novena/beforeNovena.dart';
 import 'package:novena/homeScreen.dart';
 
 void main() {
@@ -17,7 +13,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp( theme: ThemeData(
+      dividerColor: Colors.transparent,
+  ),
       home: const HomeScreen()
     );
   }
