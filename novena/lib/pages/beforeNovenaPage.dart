@@ -20,15 +20,11 @@ class _BeforeNovenaScreenState extends State<BeforeNovenaScreen> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
+        Image(
           width: MediaQuery.of(context).size.width,
-             height: MediaQuery.of(context).size.height,
-          child: const Center(
-            child: Image(
-              image: AssetImage("assets/christmasPhoto.png"),
-              fit: BoxFit.fill,
-            ),
-          ),
+          height: MediaQuery.of(context).size.height,
+          image: const AssetImage("assets/christmasPhoto.png"),
+          fit: BoxFit.fill,
         ),
         Container(
           color: const Color.fromRGBO(255, 255, 255, 0.9),

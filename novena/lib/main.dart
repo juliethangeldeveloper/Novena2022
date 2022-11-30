@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp( theme: ThemeData(
       dividerColor: Colors.transparent,
   ),
-      home: const HomeScreen()
+      home:  const HomeScreen()
     );
   }
 }

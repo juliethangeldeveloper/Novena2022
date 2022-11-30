@@ -79,6 +79,9 @@ flutter:
     - family: Apple Chancery
       fonts:
         - asset: fonts/Apple-Chancery.ttf
+    - family: Futura
+      fonts:
+        - asset: fonts/Futura.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

@@ -21,7 +21,7 @@ class _HomeScreen extends State<HomeScreen> {
   int _selectedIndex = 1;
   late List<PrayersModel> prayersForNovena = [];
   late List<PrayersModel> prayersForNovenaDay = [];
-  late List<VillancicosModel> villancicosList= [];
+  late List<VillancicosModel> villancicosList = [];
 
   double fontSize = 15;
   static const TextStyle optionStyle =
@@ -53,41 +53,54 @@ class _HomeScreen extends State<HomeScreen> {
 
   int daysBetween(DateTime from, DateTime to) {
     //compare dates
-    String YYYY_MM_DD = from.toIso8601String().split('T').first;
-print(villancicosList.length);
+//     String YYYY_MM_DD = from.toIso8601String().split('T').first;
+// print(villancicosList.length);
     from = DateTime(from.year, from.month, from.day);
     to = DateTime(to.year, to.month, to.day);
-    print("Dates compared $from to date $to");
+     print("Dates compared $from to date $to");
     return (to.difference(from).inHours / 24).round();
   }
 
   Widget currentDateDays() {
     //checks today date to caompare
     DateTime now = new DateTime.now();
+
+
     //checks the year and sets date of novena starts Dec 16
     final novenaDayStarts = DateTime(now.year, 12, 16);
+    final novenaDaybefore= DateTime(now.year, 12, 15);
+
     //check navidad date of year
-    final navidad = DateTime(now.year + 1, 12, 24);
+    final navidad = DateTime(now.year, 12, 24);
+        final navidadAfter = DateTime(now.year, 12, 25);
+
+    final novenaAfterYear = DateTime(now.year + 1, 12, 16);
+
     // check number of dates until novena
-    int numberdates = 365;
-    if (daysBetween(now, novenaDayStarts) > 0) {
-      numberdates = daysBetween(now, novenaDayStarts);
-    } else {
-      final novenaDayStartsYear = DateTime(now.year + 1, 12, 16);
-      numberdates = daysBetween(now, novenaDayStartsYear);
-    }
-    if (numberdates.abs() < 9) {
-      numberdates *= -1;
+    int numberDatesUntil = daysBetween(now, novenaDayStarts);
+
+    int numberDatesAfter = daysBetween(now, navidad);
+    int numberDatesAfterYear = daysBetween(now, novenaAfterYear);
+    int numberOfDates = 0;
+
+    if (now.isAfter(novenaDaybefore) && navidadAfter.isAfter(now)) {
+      numberOfDates = numberDatesUntil.abs()+1;
+      print("Days Novena");
       for (var i = 0; i < prayersForNovena.length; i++) {
-        if (prayersForNovena[i].id == numberdates) {
+        if (prayersForNovena[i].id == numberOfDates) {
           prayersForNovenaDay.insert(1, prayersForNovena[i]);
-          return PrayerScreen(prayersForNovenaDay, fontSize - 15);
         }
       }
-      return BeforeNovenaScreen(numberdates, fontSize - 15);
-      // return Container();
+
+      return PrayerScreen(prayersForNovenaDay, fontSize - 15);
+    } else if (novenaDayStarts.isBefore(now)) {
+      numberOfDates = numberDatesAfterYear;
+      print("Days same year after Navidad");
+      return BeforeNovenaScreen(numberOfDates, fontSize - 15);
     } else {
-      return BeforeNovenaScreen(numberdates, fontSize - 15);
+      numberOfDates = numberDatesUntil;
+      print("Days before Navidad");
+      return BeforeNovenaScreen(numberOfDates, fontSize - 15);
     }
   }
 
@@ -97,7 +110,7 @@ print(villancicosList.length);
     List<Widget> widgetOptions = <Widget>[
       NovenaScreen(prayersForNovena, fontSize - 15),
       currentDateDays(),
-      VillancicoSceen(villancicosList, fontSize-15)
+      VillancicoSceen(villancicosList, fontSize - 15)
     ];
 
     return Scaffold(
@@ -125,10 +138,16 @@ print(villancicosList.length);
       body: Center(
         child: widgetOptions.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar: BottomNavigationBar( 
-        backgroundColor: Color.fromARGB(255, 23, 61, 88), 
-        selectedLabelStyle: TextStyle(fontSize: fontSize, fontFamily: 'Futura',),
-        unselectedLabelStyle: TextStyle(fontSize: fontSize, fontFamily: 'Futura',),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color.fromARGB(255, 23, 61, 88),
+        selectedLabelStyle: TextStyle(
+          fontSize: fontSize,
+          fontFamily: 'Futura',
+        ),
+        unselectedLabelStyle: TextStyle(
+          fontSize: fontSize,
+          fontFamily: 'Futura',
+        ),
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: ImageIcon(
@@ -138,13 +157,13 @@ print(villancicosList.length);
             ),
             label: 'Oraciones',
           ),
-          BottomNavigationBarItem( 
+          BottomNavigationBarItem(
             icon: ImageIcon(
               const AssetImage("assets/NovenaIcon.png"),
-              size: fontSize + 6, 
+              size: fontSize + 6,
               color: Color.fromARGB(255, 255, 255, 255),
             ),
-            label: 'Novena', 
+            label: 'Novena',
           ),
           BottomNavigationBarItem(
             icon: ImageIcon(
