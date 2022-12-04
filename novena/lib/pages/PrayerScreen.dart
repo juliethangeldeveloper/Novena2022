@@ -1,12 +1,15 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:intl/intl.dart';
 import 'package:novena/models/PrayersModel.dart';
 
 class PrayerScreen extends StatefulWidget {
   final List<PrayersModel> prayersOfTheDay;
   final double fontSize;
-  const PrayerScreen(this.prayersOfTheDay, this.fontSize, {Key? key})
+  const PrayerScreen(this.prayersOfTheDay, this.fontSize,{Key? key})
       : super(key: key);
 
   @override
@@ -15,27 +18,38 @@ class PrayerScreen extends StatefulWidget {
 
 class _PrayerScreenState extends State<PrayerScreen> {
   late ScrollController _scrollController;
+     String currentDate = "";
+    final date = DateFormat("MMMM").format(DateTime.now());
+  List<PrayersModel> novenasCurrent = [];
+
   @override
   void initState() {
+    print("In Novena page");
+    if(widget.prayersOfTheDay.length > 5){
+        novenasCurrent = widget.prayersOfTheDay.sublist(0,6);
+    }
+   currentDate = DateFormat("EEE, MMMM d").format(DateTime.now());
     super.initState();
     _scrollController = ScrollController();
   }
 
   List<AssetImage> photos = [
     AssetImage("assets/christmasPhoto.png"),
+    AssetImage("assets/pesebre3Image.jpg"),
     AssetImage("assets/virgenImage.jpg"),
     AssetImage("assets/sanJoseImageOrig.jpg"),
     AssetImage("assets/candles2Image.jpg"),
     AssetImage("assets/pesebreImageCenter.jpg"),
     AssetImage("assets/pesebreNavidad.jpg"),
-    AssetImage("assets/candlesImage.jpg"),
-    AssetImage("assets/pesebreImage1.jpg"),
-    AssetImage("assets/pesebre3Image.jpg"),
-    AssetImage("assets/navidadImage.jpg"),
-    AssetImage("assets/candles2Image.jpg"),
-    AssetImage("assets/pesebreImage3.jpg"),
-    AssetImage("assets/pesebreImage2.jpg"),
+  ];
+
+  List<AssetImage> photos2 = [
     AssetImage("assets/christmasPhoto.png"),
+    AssetImage("assets/pesebre3Image.jpg"),
+    AssetImage("assets/candles2Image.jpg"),
+    AssetImage("assets/pesebreImageCenter.jpg"),
+    AssetImage("assets/pesebreNavidad.jpg"),
+    AssetImage("assets/candlesImage.jpg"),
   ];
 
   Widget hasChorus(int index) {
@@ -52,7 +66,7 @@ class _PrayerScreenState extends State<PrayerScreen> {
             alignment: Alignment.centerLeft,
           ),
           Text(
-            widget.prayersOfTheDay[index].chorus,
+            novenasCurrent[index].chorus,
             style: TextStyle(
               fontSize: 15 + widget.fontSize,
               color: Color.fromARGB(255, 0, 0, 0),
@@ -68,13 +82,26 @@ class _PrayerScreenState extends State<PrayerScreen> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      shrinkWrap: true,
       controller: _scrollController,
       itemBuilder: (BuildContext context, int index) {
         return Column(children: <Widget>[
+          index == 0 ? Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.only(right: 20, left: 20, top: 20),
+            child: Text( currentDate + "\n" +
+              novenasCurrent[1].title,textAlign: TextAlign.center,
+              style: TextStyle( 
+                fontSize: 25 + widget.fontSize,
+                fontFamily: 'Apple Chancery',
+                color: Color(0xff509a79),
+              ),
+            ),
+          ) : Container(),
           SizedBox(
             height: 160,
             child: Image(
-              image: photos[index],
+              image: index == 1 ? photos2[Random().nextInt(photos2.length)] : photos[index],
               width: double.infinity,
               fit: BoxFit.fitWidth,
             ),
@@ -83,7 +110,7 @@ class _PrayerScreenState extends State<PrayerScreen> {
             alignment: Alignment.centerLeft,
             padding: EdgeInsets.only(right: 20, left: 20, top: 20),
             child: Text(
-              widget.prayersOfTheDay[index].title,
+              novenasCurrent[index].title,
               style: TextStyle(
                 fontSize: 25 + widget.fontSize,
                 fontFamily: 'Apple Chancery',
@@ -97,7 +124,7 @@ class _PrayerScreenState extends State<PrayerScreen> {
           Container(
             padding: EdgeInsets.only(right: 20, left: 20, bottom: 10),
             child: Text(
-              widget.prayersOfTheDay[index].prayer,
+              novenasCurrent[index].prayer,
               style: TextStyle(
                 height: 2.0,
                 color: Color.fromARGB(255, 0, 0, 0),
@@ -107,7 +134,7 @@ class _PrayerScreenState extends State<PrayerScreen> {
           ),
         ]);
       },
-      itemCount: widget.prayersOfTheDay.length,
+      itemCount: novenasCurrent.length,
     );
   }
 }

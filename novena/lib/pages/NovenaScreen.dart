@@ -67,6 +67,8 @@ class _NovenaScreen extends State<NovenaScreen> {
 
   @override
   Widget build(BuildContext context) {
+        print("in before novena widget");
+
     List<AssetImage> photos = [
       AssetImage("assets/christmasPhoto.png"),
       AssetImage("assets/virgenImage.jpg"),

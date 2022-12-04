@@ -10,40 +10,25 @@ import 'package:novena/pages/beforeNovenaPage.dart';
 import 'package:novena/pages/PrayerScreen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
+  HomeScreen(this.dayOfNovena, this.numberOfDates, this.prayersForNovena,
+      this.prayersForNovenaDay, this.villancicosList, this.startTab,
+      {Key? key})
+      : super(key: key);
+  int numberOfDates = 0;
+  List<PrayersModel> prayersForNovena = [];
+  List<PrayersModel> prayersForNovenaDay = [];
+  List<VillancicosModel> villancicosList = [];
+  bool dayOfNovena;
+  int startTab;
   @override
   State<HomeScreen> createState() => _HomeScreen();
 }
 
 class _HomeScreen extends State<HomeScreen> {
   int dateDays = 0;
-  int _selectedIndex = 1;
-  late List<PrayersModel> prayersForNovena = [];
-  late List<PrayersModel> prayersForNovenaDay = [];
-  late List<VillancicosModel> villancicosList = [];
-
+  int _selectedIndex = 0;
   double fontSize = 15;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   late Widget nextPage;
-  Future<void> readJson() async {
-    final String response = await rootBundle.loadString('assets/novena.json');
-    final data = await json.decode(response);
-    var listPrayers = data['prayers'] as List;
-    var prayersNovena =
-        listPrayers.map((tagJson) => PrayersModel.fromJson(tagJson)).toList();
-    var listdayPrayers = data['Daily'] as List;
-    var listdailyPrayers = listdayPrayers
-        .map((tagJson) => PrayersModel.fromJson(tagJson))
-        .toList();
-    var villancicos = data['Villancicos'] as List;
-    villancicosList = villancicos
-        .map((tagJson) => VillancicosModel.fromJson(tagJson))
-        .toList();
-    prayersForNovena = prayersNovena + listdailyPrayers;
-    prayersForNovenaDay = prayersNovena;
-  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -51,67 +36,22 @@ class _HomeScreen extends State<HomeScreen> {
     });
   }
 
-  int daysBetween(DateTime from, DateTime to) {
-    //compare dates
-//     String YYYY_MM_DD = from.toIso8601String().split('T').first;
-// print(villancicosList.length);
-    from = DateTime(from.year, from.month, from.day);
-    to = DateTime(to.year, to.month, to.day);
-     print("Dates compared $from to date $to");
-    return (to.difference(from).inHours / 24).round();
-  }
-
-  Widget currentDateDays() {
-    //checks today date to caompare
-    DateTime now = new DateTime.now();
-
-
-    //checks the year and sets date of novena starts Dec 16
-    final novenaDayStarts = DateTime(now.year, 12, 16);
-    final novenaDaybefore= DateTime(now.year, 12, 15);
-
-    //check navidad date of year
-    final navidad = DateTime(now.year, 12, 24);
-        final navidadAfter = DateTime(now.year, 12, 25);
-
-    final novenaAfterYear = DateTime(now.year + 1, 12, 16);
-
-    // check number of dates until novena
-    int numberDatesUntil = daysBetween(now, novenaDayStarts);
-
-    int numberDatesAfter = daysBetween(now, navidad);
-    int numberDatesAfterYear = daysBetween(now, novenaAfterYear);
-    int numberOfDates = 0;
-
-    if (now.isAfter(novenaDaybefore) && navidadAfter.isAfter(now)) {
-      numberOfDates = numberDatesUntil.abs()+1;
-      print("Days Novena");
-      for (var i = 0; i < prayersForNovena.length; i++) {
-        if (prayersForNovena[i].id == numberOfDates) {
-          prayersForNovenaDay.insert(1, prayersForNovena[i]);
-        }
-      }
-
-      return PrayerScreen(prayersForNovenaDay, fontSize - 15);
-    } else if (novenaDayStarts.isBefore(now)) {
-      numberOfDates = numberDatesAfterYear;
-      print("Days same year after Navidad");
-      return BeforeNovenaScreen(numberOfDates, fontSize - 15);
-    } else {
-      numberOfDates = numberDatesUntil;
-      print("Days before Navidad");
-      return BeforeNovenaScreen(numberOfDates, fontSize - 15);
-    }
+  @override
+  void initState() {
+    _selectedIndex = widget.startTab;
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    readJson();
     List<Widget> widgetOptions = <Widget>[
-      NovenaScreen(prayersForNovena, fontSize - 15),
-      currentDateDays(),
-      VillancicoSceen(villancicosList, fontSize - 15)
+      NovenaScreen(widget.prayersForNovena, fontSize - 15),
+      widget.dayOfNovena
+          ? PrayerScreen(widget.prayersForNovenaDay, fontSize - 15)
+          : BeforeNovenaScreen(widget.numberOfDates, fontSize - 15),
+      VillancicoSceen(widget.villancicosList, fontSize - 15)
     ];
+
 
     return Scaffold(
       appBar: AppBar(
