@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:novena/homeScreen.dart';
 import 'package:novena/models/PrayersModel.dart';
+import 'package:novena/models/TranslateText.dart';
 import 'package:novena/models/VillancicosModel.dart';
 import 'package:novena/pages/NovenaScreen.dart';
 
@@ -14,6 +15,8 @@ void main() {
 List<PrayersModel> prayersForNovena = [];
 List<PrayersModel> prayersForNovenaDay = [];
 List<VillancicosModel> villancicosList = [];
+List<TranslateTextModel> translations = [];
+
 int numberOfDates = 0;
 bool dayOfNovena = false;
 
@@ -21,7 +24,6 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   Future<void> readJson() async {
-    print("read json");
     final String response = await rootBundle.loadString('assets/novena.json');
     final data = await json.decode(response);
     var listPrayers = data['prayers'] as List;
@@ -39,18 +41,21 @@ class MyApp extends StatelessWidget {
     prayersForNovenaDay = prayersNovena;
   }
 
+ Future<void> readJsonText() async {
+    final String response = await rootBundle.loadString('assets/Sp_text.json');
+    final String responseEN = await rootBundle.loadString('assets/En_text.json');
+    final data = await json.decode(response);
+    var translate = TranslateTextModel.fromJson(data);
+
+  }
   int daysBetween(DateTime from, DateTime to) {
-    print("days berween");
     from = DateTime(from.year, from.month, from.day);
     to = DateTime(to.year, to.month, to.day);
-    print("Dates compared $from to date $to");
     return (to.difference(from).inHours / 24).round();
   }
 
   void currentDateDays() {
-    print("Current Days Novena");
-    DateTime now1 = new DateTime.now();
-    DateTime now = new DateTime(now1.year, 12, 24);
+    DateTime now = new DateTime.now();
 
     //checks the year and sets date of novena starts Dec 16
     final novenaDayStarts = DateTime(now.year, 12, 16);
@@ -66,11 +71,8 @@ class MyApp extends StatelessWidget {
 
     if (now.isAfter(novenaDaybefore) && navidadAfter.isAfter(now)) {
       numberOfDates = numberDatesUntil.abs() + 1;
-      print("Days Novena");
       for (var i = 0; i < prayersForNovena.length; i++) {
-          print(prayersForNovena[i].id);
         if (prayersForNovena[i].id == numberOfDates) {
-          print("Day added");
           prayersForNovenaDay.insert(1, prayersForNovena[i]);
         }
       }
@@ -87,6 +89,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    readJsonText();
     return MaterialApp(
         theme: ThemeData(
           dividerColor: Colors.transparent,

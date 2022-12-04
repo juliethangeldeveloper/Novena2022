@@ -29,7 +29,9 @@ class _HomeScreen extends State<HomeScreen> {
   int _selectedIndex = 0;
   double fontSize = 15;
   late Widget nextPage;
-
+  String oraciones = "Oraciones";
+  String novena = "Novena";
+  String villancicos = "Villancicos";
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -95,7 +97,7 @@ class _HomeScreen extends State<HomeScreen> {
               size: fontSize + 6,
               color: Color.fromARGB(255, 255, 255, 255),
             ),
-            label: 'Oraciones',
+            label: oraciones,
           ),
           BottomNavigationBarItem(
             icon: ImageIcon(
@@ -103,7 +105,7 @@ class _HomeScreen extends State<HomeScreen> {
               size: fontSize + 6,
               color: Color.fromARGB(255, 255, 255, 255),
             ),
-            label: 'Novena',
+            label: novena,
           ),
           BottomNavigationBarItem(
             icon: ImageIcon(
@@ -111,7 +113,7 @@ class _HomeScreen extends State<HomeScreen> {
               size: fontSize + 6,
               color: Color.fromARGB(255, 255, 255, 255),
             ),
-            label: 'Villancicos',
+            label: villancicos,
           ),
         ],
         currentIndex: _selectedIndex,

@@ -17,6 +17,7 @@ class VillancicoSceen extends StatefulWidget {
 class _VillancicoSceenState extends State<VillancicoSceen> {
   late ScrollController _scrollController;
   var buttonVissbible = false;
+  String songLinkVillancico = "Video al villancico";
   List<AssetImage> photos = [
     const AssetImage("assets/christmasPhoto.png"),
     const AssetImage("assets/virgenImage.jpg"),
@@ -103,7 +104,7 @@ class _VillancicoSceenState extends State<VillancicoSceen> {
                         ));
                       },
                       child: Text(
-                        "Video a cancion",
+                        songLinkVillancico,
                         style: TextStyle(
                           height: 2.0,
                           fontSize: 18 + widget.fontSize,

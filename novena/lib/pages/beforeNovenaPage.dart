@@ -83,7 +83,7 @@ class _BeforeNovenaScreenState extends State<BeforeNovenaScreen> {
                   ),
                   Container(
                       padding: const EdgeInsets.all(40),
-                      child: Image(
+                      child: const Image(
                         image: AssetImage("assets/NovenaIcon.png"),
                         color: Color.fromARGB(255, 23, 61, 88),
                       ))

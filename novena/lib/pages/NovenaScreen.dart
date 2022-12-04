@@ -17,6 +17,7 @@ class NovenaScreen extends StatefulWidget {
 class _NovenaScreen extends State<NovenaScreen> {
   var buttonVissbible = false;
   late ScrollController _scrollController;
+  String coro = "Coro";
 
   Widget hasChorus(int index) {
     if (widget.prayers[index].chorus != "None") {
@@ -24,7 +25,7 @@ class _NovenaScreen extends State<NovenaScreen> {
         children: [
           Container(
             padding: const EdgeInsets.only(top: 5, bottom: 5),
-            child: Text("Coro",
+            child: Text(coro,
                 style: TextStyle(
                   fontSize: 20 + widget.fontSize,
                   color: const Color.fromARGB(255, 0, 0, 0),
@@ -67,8 +68,6 @@ class _NovenaScreen extends State<NovenaScreen> {
 
   @override
   Widget build(BuildContext context) {
-        print("in before novena widget");
-
     List<AssetImage> photos = [
       AssetImage("assets/christmasPhoto.png"),
       AssetImage("assets/virgenImage.jpg"),

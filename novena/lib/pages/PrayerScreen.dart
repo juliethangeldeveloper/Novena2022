@@ -18,38 +18,70 @@ class PrayerScreen extends StatefulWidget {
 
 class _PrayerScreenState extends State<PrayerScreen> {
   late ScrollController _scrollController;
-     String currentDate = "";
-    final date = DateFormat("MMMM").format(DateTime.now());
+  String currentDate = "";
   List<PrayersModel> novenasCurrent = [];
+  String coro = "Coro";
 
   @override
   void initState() {
-    print("In Novena page");
     if(widget.prayersOfTheDay.length > 5){
         novenasCurrent = widget.prayersOfTheDay.sublist(0,6);
     }
-   currentDate = DateFormat("EEE, MMMM d").format(DateTime.now());
+  String currentDateWeek = DateFormat("EEEE").format(DateTime.now()); 
+  String currentDateMonth = DateFormat("MMMM").format(DateTime.now()); 
+  String currentDateDay= DateFormat("d").format(DateTime.now()); 
+
+   switch (currentDateWeek){
+    case "Sunday":
+    currentDateWeek = "Domingo";
+    break;
+    case "Saturday":
+        currentDateWeek = "Sábado";
+    break; 
+    case "Monday":
+        currentDateWeek = "Lunes";
+    break;
+    case "Tuesday":
+        currentDateWeek = "Martes";
+    break;
+    case "Wednesday":
+        currentDateWeek = "Miércoles";
+    break;
+    case "Thursday":
+        currentDateWeek = "Jueves";
+    break;
+    case "Friday":
+        currentDateWeek = "Viernes";
+    break;
+    default:
+    break;
+   }
+   if(currentDateMonth == "December"){
+    currentDateMonth = "Diciembre";
+   }
+
+   currentDate = currentDateWeek+ ", " + currentDateMonth + " " + currentDateDay;
     super.initState();
     _scrollController = ScrollController();
   }
 
   List<AssetImage> photos = [
-    AssetImage("assets/christmasPhoto.png"),
-    AssetImage("assets/pesebre3Image.jpg"),
-    AssetImage("assets/virgenImage.jpg"),
-    AssetImage("assets/sanJoseImageOrig.jpg"),
-    AssetImage("assets/candles2Image.jpg"),
-    AssetImage("assets/pesebreImageCenter.jpg"),
-    AssetImage("assets/pesebreNavidad.jpg"),
+    const AssetImage("assets/christmasPhoto.png"),
+    const AssetImage("assets/pesebre3Image.jpg"),
+    const AssetImage("assets/virgenImage.jpg"),
+    const AssetImage("assets/sanJoseImageOrig.jpg"),
+    const AssetImage("assets/candles2Image.jpg"),
+    const AssetImage("assets/pesebreImageCenter.jpg"),
+    const AssetImage("assets/pesebreNavidad.jpg"),
   ];
 
   List<AssetImage> photos2 = [
-    AssetImage("assets/christmasPhoto.png"),
-    AssetImage("assets/pesebre3Image.jpg"),
-    AssetImage("assets/candles2Image.jpg"),
-    AssetImage("assets/pesebreImageCenter.jpg"),
-    AssetImage("assets/pesebreNavidad.jpg"),
-    AssetImage("assets/candlesImage.jpg"),
+    const AssetImage("assets/christmasPhoto.png"),
+    const AssetImage("assets/pesebre3Image.jpg"),
+    const AssetImage("assets/candles2Image.jpg"),
+    const AssetImage("assets/pesebreImageCenter.jpg"),
+    const AssetImage("assets/pesebreNavidad.jpg"),
+    const AssetImage("assets/candlesImage.jpg"),
   ];
 
   Widget hasChorus(int index) {
@@ -58,7 +90,7 @@ class _PrayerScreenState extends State<PrayerScreen> {
         children: [
           Container(
             padding: const EdgeInsets.only(top: 5, bottom: 5),
-            child: Text("Coro",
+            child: Text(coro,
                 style: TextStyle(
                   fontSize: 20 + widget.fontSize,
                   color: const Color.fromARGB(255, 0, 0, 0),
@@ -132,6 +164,18 @@ class _PrayerScreenState extends State<PrayerScreen> {
               ),
             ),
           ),
+          novenasCurrent[index].pray != "None" ? 
+          Container(
+            padding: EdgeInsets.only(right: 20, left: 20, bottom: 10),
+            child: Text(
+              novenasCurrent[index].pray,
+              style: TextStyle(
+                height: 2.0,
+                color: Color.fromARGB(255, 0, 0, 0),
+                fontSize: 18 + widget.fontSize,
+              ),
+            ),
+          ): Container(),
         ]);
       },
       itemCount: novenasCurrent.length,
