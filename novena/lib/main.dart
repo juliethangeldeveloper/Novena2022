@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:novena/homeScreen.dart';
 import 'package:novena/models/PrayersModel.dart';
-import 'package:novena/models/TranslateText.dart';
 import 'package:novena/models/VillancicosModel.dart';
-import 'package:novena/pages/NovenaScreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +13,6 @@ void main() {
 List<PrayersModel> prayersForNovena = [];
 List<PrayersModel> prayersForNovenaDay = [];
 List<VillancicosModel> villancicosList = [];
-List<TranslateTextModel> translations = [];
 
 int numberOfDates = 0;
 bool dayOfNovena = false;
@@ -41,13 +38,6 @@ class MyApp extends StatelessWidget {
     prayersForNovenaDay = prayersNovena;
   }
 
- Future<void> readJsonText() async {
-    final String response = await rootBundle.loadString('assets/Sp_text.json');
-    final String responseEN = await rootBundle.loadString('assets/En_text.json');
-    final data = await json.decode(response);
-    var translate = TranslateTextModel.fromJson(data);
-
-  }
   int daysBetween(DateTime from, DateTime to) {
     from = DateTime(from.year, from.month, from.day);
     to = DateTime(to.year, to.month, to.day);
@@ -55,7 +45,8 @@ class MyApp extends StatelessWidget {
   }
 
   void currentDateDays() {
-    DateTime now = new DateTime.now();
+    DateTime now = DateTime.now();
+
 
     //checks the year and sets date of novena starts Dec 16
     final novenaDayStarts = DateTime(now.year, 12, 16);
@@ -89,7 +80,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    readJsonText();
     return MaterialApp(
         theme: ThemeData(
           dividerColor: Colors.transparent,
@@ -103,7 +93,7 @@ class MyApp extends StatelessWidget {
                     prayersForNovenaDay, villancicosList, 1);
               } else {
                 return Container( color: Color.fromARGB(255, 23, 61, 88),
-                  child: Center(
+                  child: const Center(
                     child: CircularProgressIndicator()),
                 );
               }
