@@ -89,7 +89,7 @@ class _VillancicoSceenState extends State<VillancicoSceen> {
                   Padding(
                     padding: const EdgeInsets.only(top: 10),
                     child: SizedBox(
-                      height: 160,
+                      height: 180,
                       child: Image(
                         image: photos[index],
                         width: double.infinity,

@@ -18,6 +18,7 @@ class _PrayerScreenState extends State<PrayerScreen> {
   String currentDate = "";
   List<PrayersModel> novenasCurrent = [];
   String coro = "Coro";
+  String villancicosText = "Para terminar la novena \ncontinua a los Villancicos";
 
   @override
   void initState() {
@@ -128,7 +129,7 @@ class _PrayerScreenState extends State<PrayerScreen> {
             ),
           ) : Container(),
           SizedBox(
-            height: 160,
+            height: 180,
             child: Image(
               image: index == 1 ? photos2[Random().nextInt(photos2.length)] : photos[index],
               width: double.infinity,
@@ -166,6 +167,17 @@ class _PrayerScreenState extends State<PrayerScreen> {
             padding: EdgeInsets.only(right: 20, left: 20, bottom: 10),
             child: Text(
               novenasCurrent[index].pray,
+              style: TextStyle(
+                height: 2.0,
+                color: Color.fromARGB(255, 0, 0, 0),
+                fontSize: 18 + widget.fontSize,
+              ),
+            ),
+          ): Container(),
+          index == novenasCurrent.length-1 ? Container(
+            padding: EdgeInsets.only(right: 10, left: 10, bottom: 10),
+            child: Text(
+              villancicosText,
               style: TextStyle(
                 height: 2.0,
                 color: Color.fromARGB(255, 0, 0, 0),

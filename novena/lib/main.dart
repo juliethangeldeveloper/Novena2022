@@ -47,7 +47,6 @@ class MyApp extends StatelessWidget {
   void currentDateDays() {
     DateTime now = DateTime.now();
 
-
     //checks the year and sets date of novena starts Dec 16
     final novenaDayStarts = DateTime(now.year, 12, 16);
     final novenaDaybefore = DateTime(now.year, 12, 15);

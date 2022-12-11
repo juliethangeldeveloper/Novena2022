@@ -14,6 +14,8 @@ class _BeforeNovenaScreenState extends State<BeforeNovenaScreen> {
   String faltanText = "Faltan";
   String diasText = "dias";
   String novenaText = "para la \nNovena de \nAguinaldos";
+  String novenaTextAfter = "Vuelve a la applicacion \nel dia de la novena\npara empezar a leer";
+
   String dateDays = "0";
 
   @override
@@ -86,7 +88,17 @@ class _BeforeNovenaScreenState extends State<BeforeNovenaScreen> {
                       child: const Image(
                         image: AssetImage("assets/NovenaIcon.png"),
                         color: Color.fromARGB(255, 23, 61, 88),
-                      ))
+                      )),
+                       Text(
+                    novenaTextAfter,
+                    style: TextStyle(
+                      fontFamily: 'Futura',
+                      fontSize: 15 + widget.fontSize,
+                      color: Color.fromARGB(255, 23, 61, 88),
+                    ),
+                    textAlign: TextAlign.center,
+                    softWrap: false,
+                  ),
                 ],
               )
             ],
