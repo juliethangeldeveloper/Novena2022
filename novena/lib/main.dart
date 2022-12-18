@@ -49,7 +49,6 @@ class MyApp extends StatelessWidget {
 
     //checks the year and sets date of novena starts Dec 16
     final novenaDayStarts = DateTime(now.year, 12, 16);
-    final novenaDaybefore = DateTime(now.year, 12, 15);
 
     //check navidad date of year
     final navidadAfter = DateTime(now.year, 12, 25);
@@ -59,8 +58,8 @@ class MyApp extends StatelessWidget {
     int numberDatesUntil = daysBetween(now, novenaDayStarts);
     int numberDatesAfterYear = daysBetween(now, novenaAfterYear);
 
-    if (now.isAfter(novenaDaybefore) && navidadAfter.isAfter(now)) {
-      numberOfDates = numberDatesUntil.abs() + 1;
+    if (now.isAtSameMomentAs(novenaDayStarts) || now.isAfter(novenaDayStarts) && navidadAfter.isAfter(now)) {
+      numberOfDates = numberDatesUntil.abs()+1;
       for (var i = 0; i < prayersForNovena.length; i++) {
         if (prayersForNovena[i].id == numberOfDates) {
           prayersForNovenaDay.insert(1, prayersForNovena[i]);
