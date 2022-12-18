@@ -86,7 +86,7 @@ class _BeforeNovenaScreenState extends State<BeforeNovenaScreen> {
                       child: const Image(
                         image: AssetImage("assets/NovenaIcon.png"),
                         color: Color.fromARGB(255, 23, 61, 88),
-                      ))
+                      )),
                 ],
               )
             ],
