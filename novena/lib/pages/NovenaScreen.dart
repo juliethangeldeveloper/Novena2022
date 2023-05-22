@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:novena/main.dart';
 import 'package:novena/models/PrayersModel.dart';
 
 class NovenaScreen extends StatefulWidget {
@@ -14,10 +15,50 @@ class NovenaScreen extends StatefulWidget {
   State<NovenaScreen> createState() => _NovenaScreen();
 }
 
-class _NovenaScreen extends State<NovenaScreen> {
+class _NovenaScreen extends State<NovenaScreen> with WidgetsBindingObserver{
   var buttonVissbible = false;
   late ScrollController _scrollController;
   String coro = "Coro";
+
+
+  @override
+  void initState() {
+    super.initState();
+     _scrollController = ScrollController();
+     WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+  WidgetsBinding.instance.removeObserver(this);
+  super.dispose();
+}
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+         Navigator.pushReplacement(
+    context, 
+    PageRouteBuilder(
+        pageBuilder: (context, animation1, animation2) => const MyApp(),
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+    ),
+);        
+        break;
+      case AppLifecycleState.inactive:
+        print("app is in inactive state");
+        break;
+      case AppLifecycleState.paused:
+        print("app is in paused state");
+        break;
+      case AppLifecycleState.detached:
+        print("app has been removed");
+        break;
+    }
+}
+  
 
   Widget hasChorus(int index) {
     if (widget.prayers[index].chorus != "None") {
@@ -58,12 +99,6 @@ class _NovenaScreen extends State<NovenaScreen> {
     } else {
       return Container();
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController = ScrollController();
   }
 
   @override

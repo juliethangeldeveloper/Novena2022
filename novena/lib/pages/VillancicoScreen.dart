@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -44,7 +46,8 @@ class _VillancicoSceenState extends State<VillancicoSceen> {
   }
 
   Future<void> _launchInWebViewOrVC(Uri url) async {
-    if (!await launchUrl(
+    if (Platform.isIOS){
+ if (!await launchUrl(
       url,
       mode: LaunchMode.inAppWebView,
       webViewConfiguration: const WebViewConfiguration(
@@ -52,6 +55,14 @@ class _VillancicoSceenState extends State<VillancicoSceen> {
     )) {
       throw 'Could not launch $url';
     }
+    }else{
+       if (await canLaunchUrl(url)) {
+          await launchUrl(url, mode: LaunchMode.externalApplication);
+        } else {
+          throw 'Could not launch $url';
+        }
+    }
+   
   }
 
   @override
@@ -89,7 +100,7 @@ class _VillancicoSceenState extends State<VillancicoSceen> {
                   Padding(
                     padding: const EdgeInsets.only(top: 10),
                     child: SizedBox(
-                      height: 160,
+                      height: 180,
                       child: Image(
                         image: photos[index],
                         width: double.infinity,

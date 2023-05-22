@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:novena/main.dart';
 
 class BeforeNovenaScreen extends StatefulWidget {
   final int days;
@@ -10,12 +11,50 @@ class BeforeNovenaScreen extends StatefulWidget {
   State<BeforeNovenaScreen> createState() => _BeforeNovenaScreenState();
 }
 
-class _BeforeNovenaScreenState extends State<BeforeNovenaScreen> {
+class _BeforeNovenaScreenState extends State<BeforeNovenaScreen> with WidgetsBindingObserver{
   String faltanText = "Faltan";
   String diasText = "dias";
   String novenaText = "para la \nNovena de \nAguinaldos";
   String dateDays = "0";
 
+  @override
+  void initState() {
+    super.initState();
+     WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+  WidgetsBinding.instance.removeObserver(this);
+  super.dispose();
+}
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+         Navigator.pushReplacement(
+    context, 
+    PageRouteBuilder(
+        pageBuilder: (context, animation1, animation2) => MyApp(),
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+    ),
+);
+                
+        break;
+      case AppLifecycleState.inactive:
+        print("app is in inactive state");
+        break;
+      case AppLifecycleState.paused:
+        print("app is in paused state");
+        break;
+      case AppLifecycleState.detached:
+        print("app has been removed");
+        break;
+    }
+}
+   
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -86,7 +125,7 @@ class _BeforeNovenaScreenState extends State<BeforeNovenaScreen> {
                       child: const Image(
                         image: AssetImage("assets/NovenaIcon.png"),
                         color: Color.fromARGB(255, 23, 61, 88),
-                      ))
+                      )),
                 ],
               )
             ],
