@@ -134,7 +134,7 @@ class _NovenaScreen extends State<NovenaScreen> with WidgetsBindingObserver{
                 },
                 title: Container(
                   alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(right: 20, left: 20),
+                  padding: EdgeInsets.only(right: 30, left: 30),
                   child: Text(
                     widget.prayers[index].title,
                     style: TextStyle(
@@ -154,12 +154,12 @@ class _NovenaScreen extends State<NovenaScreen> with WidgetsBindingObserver{
                     ),
                   ),
                   Container(
-                      padding: const EdgeInsets.only(right: 20, left: 20),
+                      padding: const EdgeInsets.only(right: 55, left: 55),
                       child: hasChorus(index)),
                   Container(
                     width: MediaQuery.of(context).size.width,
                     padding:
-                        const EdgeInsets.only(right: 20, left: 25, bottom: 10),
+                        const EdgeInsets.only(right: 55, left: 55, bottom: 10),
                     child: Text(
                       widget.prayers[index].prayer,
                       style: TextStyle(
@@ -171,7 +171,7 @@ class _NovenaScreen extends State<NovenaScreen> with WidgetsBindingObserver{
                   ),
                   Container(
                       width: MediaQuery.of(context).size.width,
-                      padding: const EdgeInsets.only(right: 20, left: 20),
+                      padding: const EdgeInsets.only(right: 55, left: 55),
                       child: hasPrayers(index)),
                 ],
               ),

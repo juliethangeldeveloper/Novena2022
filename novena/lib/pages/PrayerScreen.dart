@@ -138,7 +138,7 @@ class _PrayerScreenState extends State<PrayerScreen> {
           ),
           Container(
             alignment: Alignment.centerLeft,
-            padding: EdgeInsets.only(right: 20, left: 20, top: 20),
+            padding: EdgeInsets.only(right: 55, left: 55, top: 20),
             child: Text(
               novenasCurrent[index].title,
               style: TextStyle(
@@ -149,10 +149,10 @@ class _PrayerScreenState extends State<PrayerScreen> {
             ),
           ),
           Container(
-              padding: EdgeInsets.only(right: 20, left: 20),
+              padding: EdgeInsets.only(right: 55, left: 55),
               child: hasChorus(index)),
           Container(
-            padding: EdgeInsets.only(right: 20, left: 20, bottom: 10),
+            padding: EdgeInsets.only(right: 55, left: 55, bottom: 10),
             child: Text(
               novenasCurrent[index].prayer,
               style: TextStyle(
@@ -164,7 +164,7 @@ class _PrayerScreenState extends State<PrayerScreen> {
           ),
           novenasCurrent[index].pray != "None" ? 
           Container(
-            padding: EdgeInsets.only(right: 20, left: 20, bottom: 10),
+            padding: EdgeInsets.only(right: 55, left: 55, bottom: 10),
             child: Text(
               novenasCurrent[index].pray,
               style: TextStyle(

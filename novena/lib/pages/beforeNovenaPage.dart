@@ -17,6 +17,7 @@ class _BeforeNovenaScreenState extends State<BeforeNovenaScreen> with WidgetsBin
   String novenaText = "para la \nNovena de \nAguinaldos";
   String dateDays = "0";
 
+
   @override
   void initState() {
     super.initState();
@@ -36,34 +37,35 @@ class _BeforeNovenaScreenState extends State<BeforeNovenaScreen> with WidgetsBin
          Navigator.pushReplacement(
     context, 
     PageRouteBuilder(
-        pageBuilder: (context, animation1, animation2) => MyApp(),
+        pageBuilder: (context, animation1, animation2) => const MyApp(),
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
     ),
-);
+    );
                 
         break;
       case AppLifecycleState.inactive:
-        print("app is in inactive state");
         break;
       case AppLifecycleState.paused:
-        print("app is in paused state");
         break;
       case AppLifecycleState.detached:
-        print("app has been removed");
         break;
     }
 }
    
   @override
   Widget build(BuildContext context) {
+      var isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+
     return Stack(
       children: [
-        Image(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          image: const AssetImage("assets/christmasPhoto.png"),
-          fit: BoxFit.fill,
+        Container(color :Color.fromRGBO(0, 0, 0, 1),
+          child: Image(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            image: const AssetImage("assets/christmasPhoto.png"),
+            fit: BoxFit.fitWidth,
+          ),
         ),
         Container(
           color: const Color.fromRGBO(255, 255, 255, 0.9),
@@ -88,7 +90,7 @@ class _BeforeNovenaScreenState extends State<BeforeNovenaScreen> with WidgetsBin
                         softWrap: false,
                       ),
                       Container(
-                        padding: const EdgeInsets.all(15),
+                        padding: const EdgeInsets.only(right:10, left: 10),
                         child: Text(
                           widget.days.toString(),
                           style: TextStyle(
@@ -120,12 +122,14 @@ class _BeforeNovenaScreenState extends State<BeforeNovenaScreen> with WidgetsBin
                     textAlign: TextAlign.center,
                     softWrap: false,
                   ),
-                  Container(
-                      padding: const EdgeInsets.all(40),
-                      child: const Image(
-                        image: AssetImage("assets/NovenaIcon.png"),
-                        color: Color.fromARGB(255, 23, 61, 88),
-                      )),
+                  Visibility( visible: isPortrait,
+                    child: Container(
+                        padding: const EdgeInsets.all(40),
+                        child: const Image(
+                          image: AssetImage("assets/NovenaIcon.png"),
+                          color: Color.fromARGB(255, 23, 61, 88),
+                        )),
+                  ),
                 ],
               )
             ],
